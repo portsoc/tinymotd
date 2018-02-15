@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<title>Tiny POST upload</title>
+<h1>Tiny POST upload</h1>
+<p>This is an exaple of using fetch & post with Express.  it models a round-trip from client to server, and back to client.  Text that is sent to he server as a JSON object is extracted when it arrives back at the client and the screen is updated.</p>
+
+<textarea id=payloadeditor>
+This will be uploaded...
+</textarea>
+
+<button id=go>Upload</button>
+
+<p>Stuff that comes back from the server goes here...</p>
+<p id=serverresponecontent></p>
+
+<a target="_blank" href="/message">You can GET the most recent message too</a>
+
+
+<script>
+  const headers =
+
+  window.go.addEventListener("click", async (e) => {
+      const opts = {
+        method: 'POST',
+        headers: new Headers(
+          { 'Content-Type': 'application/json'}
+        ),
+        body: JSON.stringify(
+          {
+            message: window.payloadeditor.value,
+          }
+        )
+      }
+
+      const response = await fetch("/message", opts)
+      const obj = await response.json();
+
+      serverresponecontent.textContent = obj.message;
+    }
+);
+
+</script>
