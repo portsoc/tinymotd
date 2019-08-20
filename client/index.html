@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <title>Tiny POST upload</title>
+
 <h1>Tiny POST upload</h1>
-<p>This is an exaple of using fetch & post with Express.  it models a round-trip from client to server, and back to client.  Text that is sent to he server as a JSON object is extracted when it arrives back at the client and the screen is updated.</p>
+<p>This example uses the <code>fetch</code> function of Javascript to
+   issue an HTTP <code>POST</code> request to an <em>Express</em>
+   server.</p>
+<p>Type a message, and press the upload button to update
+   the message stored on the server.</p>
 
-<textarea id=payloadeditor>
-This will be uploaded...
-</textarea>
+<textarea id=payloadeditor placeholder="Type your text messager here."></textarea>
+<button id=upload>Upload</button>
 
-<button id=go>Upload</button>
-
-<p>Stuff that comes back from the server goes here...</p>
-<p id=serverresponecontent></p>
+<p>Server responses are displayed here: <code id=serverresponecontent></code></p>
 
 <a target="_blank" href="/message">You can GET the most recent message too</a>
 
 
 <script>
-  const headers =
 
-  window.go.addEventListener("click", async (e) => {
-      const opts = {
-        method: 'POST',
-        headers: new Headers(
-          { 'Content-Type': 'application/json'}
-        ),
-        body: JSON.stringify(
-          {
-            message: window.payloadeditor.value,
-          }
-        )
+async function sendMessage (e) {
+  const opts = {
+    method: 'POST',
+    headers: new Headers(
+      { 'Content-Type': 'application/json'}
+    ),
+    body: JSON.stringify(
+      {
+        message: window.payloadeditor.value,
       }
+    )
+  }
 
-      const response = await fetch("/message", opts)
-      const obj = await response.json();
+  const response = await fetch("/message", opts)
+  const obj = await response.json();
 
-      serverresponecontent.textContent = obj.message;
-    }
-);
+  serverresponecontent.textContent = obj.message;
+}
+
+const uploadButton = document.getElementById("upload");
+uploadButton.addEventListener("click", sendMessage);
 
 </script>
