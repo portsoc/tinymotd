@@ -1,6 +1,6 @@
 # Tiny Post Upload
 
-This example uses the **fetch** function of Javascript to issue an HTTP **POST** request to an _Express_ server.  The request includes a JSON message which the  server stores and returns to the client.  Subsequent HTTP *GET* requests can retrieve the stored message.
+This example uses the `fetch` function of Javascript to issue an HTTP `POST` request to an _Express_ server.  The request includes a JSON message which the  server stores and returns to the client.  Subsequent HTTP `GET` requests can retrieve the stored message.
 
 ## Installation
 
