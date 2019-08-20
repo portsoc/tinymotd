@@ -4,7 +4,7 @@
   "description": "A tiny example of POST using fetch and express.",
   "main": "svr.js",
   "scripts": {
-    "test": "node svr.js; open http://localhost:8080/"
+    "start": "node svr.js"
   },
   "keywords": [
     "fetch",
