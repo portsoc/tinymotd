@@ -23,13 +23,13 @@ The example comprises two parts, a server and a client.
 * will serve any files contained in the client folder (therefore requesting `http://localhost:8080/` will return the `index.html` file).
 * provides a special path `http://localhost:8080/message` with different behaviours for 'POST' and 'GET' requests.
   * When a `GET` request is received, stored message is returned.
-  * When a `POST` request is received, the server updates the message that the server sends in response to a `GET` request.  This updated mesage is returned to the client as a response to the POST request (so the client can clearly check if the update was successful).
+  * When a `POST` request is received, the server updates the message that the server sends in response to a `GET` request.  This updated message is returned to the client as a response to the POST request (so the client can clearly check if the update was successful).
 
 You can test to see what the current message is by opening `http://localhost:8080/message` in your preferred browser.
 
 ### The Client
 
 * The client uses a function called `sendMessage` to undertake the round-trip from client, to server, and back to the client.  This `sendMessage` function:
-  * runs whever the `upload` button is pressed.
+  * runs whenever the `upload` button is pressed.
   * constructs an object that describes the method to be used (`POST`), a header block where the data format of JSON is specified, and a `body` that contains the stringified JSON message that is sent to the server.
   * waits for the server to respond and updates the page to reflect what the server sent back (which should be exactly what was sent).
