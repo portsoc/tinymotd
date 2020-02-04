@@ -2,43 +2,55 @@
 <meta charset="UTF-8">
 <title>Tiny POST upload</title>
 
-<h1>Tiny POST upload</h1>
-<p>This example uses the <code>fetch</code> function of Javascript to
-   issue an HTTP <code>POST</code> request to an <em>Express</em>
-   server.</p>
-<p>Type a message, and press the upload button to update
-   the message stored on the server.</p>
+<h1 id=motd>A simple Message-of-the-Day page.</h1>
 
-<textarea id=payloadeditor placeholder="Type your text message here."></textarea>
-<button id=upload>Upload</button>
-
-<p>Server responses are displayed here: <code id=serverresponecontent></code></p>
-
-<a target="_blank" href="/message">You can GET the most recent message too</a>
-
+<p>
+  <input id="message" type="text" placeholder="Type your message here…">
+  <button id=sendbtn>Send</button>
+</p>
+<p>You can <code>GET</code> the <a target="_blank" href="/motd">most recent message </a> too.</p>
 
 <script>
 
-async function sendMessage (e) {
-  const opts = {
+const buttonEl = document.querySelector('#sendbtn')
+const messageEl = document.querySelector('#message')
+const motdEl = document.querySelector('#motd');
+
+buttonEl.addEventListener('click', submitMessage);
+
+async function submitMessage() {
+  const msg = messageEl.value;
+  const obj = { msg };
+  const response = await fetch('/motd', {
     method: 'POST',
-    headers: new Headers(
-      { 'Content-Type': 'application/json'}
-    ),
-    body: JSON.stringify(
-      {
-        message: window.payloadeditor.value,
-      }
-    )
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  });
+
+  if (!response.ok) {
+    console.warn('motd not submitted correctly', response);
+  } else {
+    console.log('submitted successfully');
   }
 
-  const response = await fetch("/message", opts)
-  const obj = await response.json();
-
-  serverresponecontent.textContent = obj.message;
+  loadMessage();
 }
 
-const uploadButton = document.getElementById("upload");
-uploadButton.addEventListener("click", sendMessage);
+async function loadMessage() {
+  const response = await fetch('/motd');
+  if (!response.ok) {
+    console.error('cannot get motd', response);
+    return;
+  }
+
+  const text = await response.text();
+  motdEl.textContent = text;
+}
+
+window.addEventListener('load', loadMessage);
+
+setInterval(loadMessage, 5000);
 
 </script>

@@ -1,21 +1,17 @@
-/*
- * A tiny message-of-the-day (MOTD) server
- */
+/* A tiny message-of-the-day (MOTD) server */
 const express = require('express');
 const app = express();
-
 app.use('/', express.static('client'));
-app.use(express.json());
 
-let motd = {};
+let motd = "No MOTD yet.";
 
-app.post('/message', (req, res) => {
-  motd = req.body;
-  res.json(motd);
+app.post('/motd', express.json(), function (req, res) {
+  motd = req.body.msg;
+  res.send('accepted');
 });
 
-app.get('/message', (req, res) => {
-  res.json(motd);
+app.get('/motd', (req, res) => {
+  res.send(motd);
 });
 
 app.listen( 8080, (e) =>{
